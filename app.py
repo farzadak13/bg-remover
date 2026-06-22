@@ -1,5 +1,5 @@
 import streamlit as st
-from rembg import remove
+from rembg import remove, new_session
 from PIL import Image
 import io
 import zipfile
@@ -289,6 +289,7 @@ with col_result:
     st.markdown('<div class="section-title">🖼️ نتیجه</div>', unsafe_allow_html=True)
 
     if process_btn and uploaded_files:
+        session = new_session(selected_model)
         results = []
         progress = st.progress(0, text="در حال پردازش...")
 
@@ -299,7 +300,7 @@ with col_result:
             try:
                 output_bytes = remove(
                     input_bytes,
-                    model_name=selected_model,
+                    session=session,
                     alpha_matting=alpha_matting,
                 )
 
